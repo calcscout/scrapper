@@ -5,7 +5,11 @@ export default async function checkDoodle(_req, res) {
 	const browser = await puppeteer.launch(
 		process.env.NODE_ENV === 'production'
 			? {
-					args: chrome.args,
+					args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+      ],
 					executablePath: await chrome.executablePath,
 					headless: chrome.headless,
 			  }
@@ -13,9 +17,9 @@ export default async function checkDoodle(_req, res) {
 	);
 	try {
 		const page = await browser.newPage();
-		// page.setUserAgent(
-		// 	'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'
-		// );
+		await page.setUserAgent(
+			'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36'
+		);
 
 		await page.goto(`https://doodle.com/mm/nms/anmeldung`, {
 			waitUntil: 'domcontentloaded',
