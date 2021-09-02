@@ -14,22 +14,20 @@ export default async function checkDoodle(_req, res) {
 	);
 
 	const page = await browser.newPage();
-	page.setUserAgent(
-		'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'
-	);
-	await page.goto(`https://doodle.com/mm/nms/anmeldung`);
+	// page.setUserAgent(
+	// 	'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'
+	// );
+	await page.goto(`https://doodle.com/mm/nms/anmeldung`, {
+		waitUntil: 'domcontentloaded',
+	});
 
-	let title = null;
+	const scrapedData = await page.evaluate(() => {
+		return document.querySelector('.page-title').innerText;
+	});
 
-	try {
-		title = await page.evaluate(() => {
-			return document.querySelector('.page-title').innerText;
-		});
-	} catch (error) {
-		console.log('Error!', error);
-		res.status(error.status || 500).end(error.message);
-	}
+	console.log('scrapedData', scrapedData);
 
+	await page.close();
 	await browser.close();
 	console.log('Title from Doodle: ', title);
 	res.status(200).send({ title });
