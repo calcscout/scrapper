@@ -47,9 +47,6 @@ export default async function checkDoodle(_req, res) {
 		text = 'No Changes on the Booking Link Page';
 	} else if (text === undefined) {
 		text = 'Server not responding this minute';
-	} else {
-		text =
-			'!!!Please check the link, something may have benn changed!!! \n https://doodle.com/mm/nms/anmeldung';
 	}
 
 	const path = `${URI}${text}`;
@@ -58,13 +55,12 @@ export default async function checkDoodle(_req, res) {
 		.get(path)
 		.then(function (response) {
 			// handle success
-			console.log(response);
 			return response;
 		})
 		.catch(function (error) {
 			// handle error
-			console.log(error);
+			return error;
 		});
 
-	res.status(200).send({ path });
+	res.status(200).send({ telegramResponse });
 }
