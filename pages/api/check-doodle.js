@@ -5,16 +5,16 @@ const axios = require('axios');
 const URI = `https://api.telegram.org/bot${process.env.BOT_ID}/sendMessage?chat_id=${process.env.CHAT_ID}&text=`;
 
 export default async function checkDoodle(_req, res) {
-	let telegramResponse = await axios
-		.get(URI + 'Hook trigerred')
-		.then(function (response) {
-			// handle success
-			return response;
-		})
-		.catch(function (error) {
-			// handle error
-			console.log(error);
-		});
+	// let telegramResponse = await axios
+	// 	.get(URI + 'Hook trigerred')
+	// 	.then(function (response) {
+	// 		// handle success
+	// 		return response;
+	// 	})
+	// 	.catch(function (error) {
+	// 		// handle error
+	// 		console.log(error);
+	// 	});
 
 	const browser = await puppeteer.launch(
 		process.env.NODE_ENV === 'production'
@@ -43,14 +43,15 @@ export default async function checkDoodle(_req, res) {
 	const defaultAnswer = 'This Bookable Calendar link is off.';
 	if (defaultAnswer === text) {
 		text = 'No Changes on the Booking Link Page';
-	} else {
-		text =
-			'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
 	}
+	// else {
+	// 	text =
+	// 		'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
+	// }
 
 	const path = `${URI}${text}`;
 
-	telegramResponse = await axios
+	const telegramResponse = await axios
 		.get(path)
 		.then(function (response) {
 			// handle success
