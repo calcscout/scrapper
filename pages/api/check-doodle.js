@@ -39,10 +39,16 @@ export default async function checkDoodle(_req, res) {
 
 	const path = `${URI}${text}`;
 
-	await axios.get(path).catch(function (error) {
-		// handle error
-		console.log(error);
-	});
+	await axios
+		.get(path)
+		.then(function (response) {
+			// handle success
+			console.log(response);
+		})
+		.catch(function (error) {
+			// handle error
+			console.log(error);
+		});
 
 	res.status(200).send({ text });
 }
