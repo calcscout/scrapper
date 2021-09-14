@@ -13,24 +13,16 @@ export default async function checkDoodle(_req, res) {
 	);
 	try {
 		const page = await browser.newPage();
-		await page.setUserAgent(
-			'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'
-		);
-
 		await page.goto(`https://doodle.com/mm/nms/anmeldung`, {
-			waitUntil: 'domcontentloaded',
+			waitUntil: 'networkidle0',
 		});
 
-		const scrapedData = await page.evaluate(() => {
-			const response = document.querySelector('html')
-				? document.querySelector('html').innerHTML
-				: 'nothing found';
-			return response;
+		const text = await page.evaluate(() => {
+			return document.querySelector('body').innerText;
 		});
-
-		await page.close();
 		await browser.close();
-		res.status(200).send({ scrapedData });
+		console.log(text);
+		res.status(200).send({ text });
 	} catch (error) {
 		res.status(error.status || 500).end(error.message);
 	}
