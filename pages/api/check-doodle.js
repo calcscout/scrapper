@@ -29,15 +29,15 @@ export default async function checkDoodle(_req, res) {
 		res.status(error.status || 500).end(error.message);
 	}
 
-	// const defaultAnswer = 'This Bookable Calendar link is off.';
-	// if (defaultAnswer === text) {
-	// 	text = 'No Changea to the Booking Link';
-	// } else {
-	// 	text =
-	// 		'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
-	// }
+	const defaultAnswer = 'This Bookable Calendar link is off.';
+	if (defaultAnswer === text) {
+		text = 'No Changea to the Booking Link';
+	} else {
+		text =
+			'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
+	}
 
-	const path = `${URI}Done`;
+	const path = `${URI}${text}`;
 
 	const telegramResponse = await axios
 		.get(path)
@@ -51,5 +51,5 @@ export default async function checkDoodle(_req, res) {
 			console.log(error);
 		});
 
-	res.status(200).send({ path });
+	res.status(200).send({ text });
 }
