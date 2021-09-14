@@ -31,7 +31,7 @@ export default async function checkDoodle(_req, res) {
 
 	const defaultAnswer = 'This Bookable Calendar link is off.';
 	if (defaultAnswer === text) {
-		text = 'No Changea to the Booking Link';
+		text = 'No Changes on the Booking Link Page';
 	} else {
 		text =
 			'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
