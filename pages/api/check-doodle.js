@@ -29,8 +29,7 @@ export default async function checkDoodle(_req, res) {
 		res.status(error.status || 500).end(error.message);
 	}
 
-	const defaultAnswer = 'This Bookable Calendar link is off1.';
-	console.log(defaultAnswer, text);
+	const defaultAnswer = 'This Bookable Calendar link is off.';
 	if (defaultAnswer === text) {
 		text = 'No Changea to the Booking Link';
 	} else {
@@ -40,16 +39,10 @@ export default async function checkDoodle(_req, res) {
 
 	const path = `${URI}${text}`;
 
-	axios
-		.get(path)
-		.then(function (response) {
-			// handle success
-			console.log(response);
-		})
-		.catch(function (error) {
-			// handle error
-			console.log(error);
-		});
+	await axios.get(path).catch(function (error) {
+		// handle error
+		console.log(error);
+	});
 
 	res.status(200).send({ text });
 }
