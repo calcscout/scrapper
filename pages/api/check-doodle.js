@@ -37,7 +37,7 @@ export default async function checkDoodle(_req, res) {
 	// 		'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
 	// }
 
-	const path = `${URI}${text}`;
+	const path = `${URI}Done`;
 
 	const telegramResponse = await axios
 		.get(path)
