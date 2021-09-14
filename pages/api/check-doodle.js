@@ -5,6 +5,17 @@ const axios = require('axios');
 const URI = `https://api.telegram.org/bot${process.env.BOT_ID}/sendMessage?chat_id=${process.env.CHAT_ID}&text=`;
 
 export default async function checkDoodle(_req, res) {
+	let telegramResponse = await axios
+		.get(URI + 'Hook trigerred')
+		.then(function (response) {
+			// handle success
+			return response;
+		})
+		.catch(function (error) {
+			// handle error
+			console.log(error);
+		});
+
 	const browser = await puppeteer.launch(
 		process.env.NODE_ENV === 'production'
 			? {
@@ -39,7 +50,7 @@ export default async function checkDoodle(_req, res) {
 
 	const path = `${URI}${text}`;
 
-	const telegramResponse = await axios
+	telegramResponse = await axios
 		.get(path)
 		.then(function (response) {
 			// handle success
@@ -51,5 +62,5 @@ export default async function checkDoodle(_req, res) {
 			console.log(error);
 		});
 
-	res.status(200).send({ text });
+	res.status(200).send({ path });
 }
