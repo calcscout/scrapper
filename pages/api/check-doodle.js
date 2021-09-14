@@ -16,6 +16,9 @@ export default async function checkDoodle(_req, res) {
 	// 		console.log(error);
 	// 	});
 
+	let text = undefined;
+	const defaultAnswer = 'This Bookable Calendar link is off.';
+
 	const browser = await puppeteer.launch(
 		process.env.NODE_ENV === 'production'
 			? {
@@ -25,7 +28,7 @@ export default async function checkDoodle(_req, res) {
 			  }
 			: { headless: false }
 	);
-	let text = undefined;
+
 	try {
 		const page = await browser.newPage();
 		await page.goto(`https://doodle.com/mm/nms/anmeldung`, {
@@ -40,14 +43,14 @@ export default async function checkDoodle(_req, res) {
 		res.status(error.status || 500).end(error.message);
 	}
 
-	const defaultAnswer = 'This Bookable Calendar link is off.';
-	if (defaultAnswer === text) {
+	if (text === defaultAnswer) {
 		text = 'No Changes on the Booking Link Page';
+	} else if (text === undefined) {
+		text = 'Server not responding this minute';
+	} else {
+		text =
+			'!!!Please check the link, something may have benn changed!!! \n https://doodle.com/mm/nms/anmeldung';
 	}
-	// else {
-	// 	text =
-	// 		'!!!Please check the link, something has changed!!! \n https://doodle.com/mm/nms/anmeldung';
-	// }
 
 	const path = `${URI}${text}`;
 
