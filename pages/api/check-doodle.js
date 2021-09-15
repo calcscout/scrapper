@@ -46,7 +46,7 @@ export default async function checkDoodle(_req, res) {
 	if (text === defaultAnswer) {
 		text = 'No Changes on the Booking Link Page';
 	} else if (text === undefined) {
-		text = 'Server not responding this minute';
+		text = 'Server not responding';
 	}
 
 	const path = `${URI}${text}`;
